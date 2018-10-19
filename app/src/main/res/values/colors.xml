@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="red">#FF0000</color>
+    <color name="title">#99FF99</color>
+    <color name="title2">#360940</color>
+    <color name="white">#FFF</color>
+    <color name="nlack">#000</color>
+    <color name="scorecolor">#FFB533</color>
+    <color name="mauhong">#C51162</color>
+    <color name="hintcolor">#006064</color>
+    <color name="translucent_grey">#88cccccc</color>
+</resources>
