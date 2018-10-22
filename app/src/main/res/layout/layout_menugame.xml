@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundopen"
+    >
+    <ImageButton
+        android:id="@+id/ibMenuSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/volumonblack"/>
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="MEMORY"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="50dp"
+        android:textSize="55dp"
+        android:fontFamily="cursive"
+        android:textColor="#6200EA"
+        android:background="@drawable/custom_title"
+        android:gravity="center"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="100dp"
+        android:layout_marginRight="20dp">
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Chơi"
+            android:id="@+id/btnPlay"
+            android:layout_gravity="center"
+            android:textSize="30dp"
+            android:background="@drawable/custombuttonmenu"
+            android:textColor="#F50057"/>
+        <Button
+
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/btnPlay"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnBxh"
+            android:text="Xếp Hạng"
+            android:layout_gravity="center"
+            android:textSize="30dp"
+            android:background="@drawable/custombuttonmenu"
+            android:textColor="#F50057"/>
+    </LinearLayout>
+</RelativeLayout>

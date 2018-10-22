@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button rs;
     Button hint;
     Button arBtn[][]=new Button[7][7];
-
+    Button btnMenuMain;
     //Int
     int arID[][]=new int[7][7];
     int id1,id2;
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int hintTimes=1;
     int score=0;
     int bonusScore=0;
+    int player=0;
+    //SharedPreferences
+    SharedPreferences sharedPreferences;
     //Layout
     RelativeLayout relativeLayout;
     //Timer
@@ -125,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         rs.setOnClickListener(this);
         hint.setOnClickListener(this);
-
         //Tạo mảng lưu Button
         arBtn[0][0]=findViewById(R.id.b00);
         arBtn[0][1]=findViewById(R.id.b01);
@@ -239,6 +242,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         createGameItem();
         //Tắt bảng score
         relativeLayout.setVisibility(View.INVISIBLE);
+        //Tạo sharedpreferences
+
+
+        sharedPreferences=getSharedPreferences("BXH",Context.MODE_PRIVATE);
+        /*SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.commit();*/
+        String key=sharedPreferences.getString("key","");
+
+        player=(key=="")?0:Integer.parseInt(key);
     }
 
 
@@ -266,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void run() {
                         handlerhint.sendEmptyMessage(0);
                     }
-                },2000);
+                },1300);
             }
             txtcountHint.setText(String.valueOf(hintTimes).toString());
         }
@@ -283,6 +295,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             playTimer.cancel();
             block();
             winGame();
+            putBXH(tongDiem());
 
 
         } else
@@ -387,33 +400,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Reset
     public void reset(){
-        for(int i=0;i<7;++i){
-            for(int j=0;j<7;++j){
-                arBtn[i][j].setText(small_icon);
-                arBtn[i][j].setEnabled(true);
-                arBtn[i][j].setVisibility(View.VISIBLE);
-            }
-        }
-        mediaPlayer.start();
-        playTimer.cancel();
-        if(etCustomTime.getText().toString().length()>0){
-            playTime=Integer.parseInt(etCustomTime.getText().toString())*60;
-        }
-        else playTime=time;
-        win=0;
-        hintTimes=2;
-        txtcountHint.setText(String.valueOf(hintTimes).toString());
-        score=0;
-        txtscore.setText(String.valueOf(score).toString());
-        createTable();
-        createHint();
-        createTime();
 
-        /*Intent intent = new Intent(MainActivity.this,MainActivity.class);
-        MainActivity.this.finish();
-        startActivity(intent);*/
-        unBlock();
-        relativeLayout.setVisibility(View.INVISIBLE);
+        new AlertDialog.Builder(this)
+                .setMessage("Tạo mới game ??")
+                .setCancelable(false)
+                .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        for(int i=0;i<7;++i){
+                            for(int j=0;j<7;++j){
+                                arBtn[i][j].setText(small_icon);
+                                arBtn[i][j].setEnabled(true);
+                                arBtn[i][j].setVisibility(View.VISIBLE);
+                            }
+                        }
+                        mediaPlayer.start();
+                        playTimer.cancel();
+                        if(etCustomTime.getText().toString().length()>0){
+                            playTime=Integer.parseInt(etCustomTime.getText().toString())*60;
+                        }
+                        else playTime=time;
+                        win=0;
+                        hintTimes=2;
+                        txtcountHint.setText(String.valueOf(hintTimes).toString());
+                        score=0;
+                        txtscore.setText(String.valueOf(score).toString());
+                        createTable();
+                        createHint();
+                        createTime();
+
+                        unBlock();
+                        relativeLayout.setVisibility(View.INVISIBLE);
+                    }
+                })
+                .setPositiveButton("No", null)
+                .show();
+
     }
     //Block
     public void block(){
@@ -481,6 +502,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     clearTable();
                     block();
                     loseGame();
+                    putBXH(tongDiem());
                 }
             }
         };
@@ -572,10 +594,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setMessage("Tính thoát game hả ????")
+                .setMessage("Trở về menu ??")
                 .setCancelable(false)
                 .setNegativeButton("Ừ", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                        editor.putString("key",String.valueOf(player).toString());
+                        editor.commit();
                         MainActivity.this.finish();
                     }
                 })
@@ -590,6 +615,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mpWinGame.stop();
         mpClick.stop();
         mpAccept.stop();
+    }
+
+    public void putBXH(int point){
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString(String.valueOf(player).toString(),String.valueOf(point).toString());
+        editor.commit();
+        player++;
     }
 
 }
