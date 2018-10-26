@@ -8,9 +8,4 @@
     <color name="title2">#360940</color>
     <color name="white">#FFF</color>
     <color name="nlack">#000</color>
-    <color name="scorecolor">#FFB533</color>
-    <color name="mauhong">#C51162</color>
-    <color name="hintcolor">#006064</color>
-    <color name="translucent_grey">#88cccccc</color>
-    <color name="translucent_color">#559575CD</color>
 </resources>

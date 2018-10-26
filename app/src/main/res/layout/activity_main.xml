@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
-<LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:background="@drawable/backgroundgame2">
+    android:background="@drawable/backgroundgame">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_height="wrap_content">
         <TextView
             android:layout_marginTop="5dp"
             android:background="@drawable/custom"
@@ -26,41 +21,42 @@
             android:textSize="30dp"
             android:textStyle="italic"
             android:layout_centerHorizontal="true"
-            android:textColor="#01579B"
+            android:textColor="@color/title"
             android:gravity="center_horizontal"
+            />
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+        <ToggleButton
+            android:id="@+id/sound"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textOn="Off"
+            android:textOff="On"
             />
 
 
-
     </RelativeLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:orientation="vertical"
         android:layout_marginTop="10dp">
         <TextView
             android:id="@+id/txtplayTime"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5:00"
+            android:text="0"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:textSize="30dp"
             android:textColor="@color/red"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
             />
-        <TextView
-            android:id="@+id/score"
-            android:text="0"
-            android:textSize="20dp"
-            android:textColor="@color/scorecolor"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@drawable/custom_textview"/>
-    </RelativeLayout>
+    </LinearLayout>
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         >
 
         <TableRow
@@ -406,19 +402,14 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:padding="10dp"
-                android:background="@drawable/custom_gameitem"
-                android:text="?"
-                android:textColor="#C51162"
-                android:textSize="20dp" />
+                android:text="2" />
 
             <Button
                 android:id="@+id/b62"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:padding="10dp"
-                android:textColor="#C51162"
-                android:textSize="20dp"
-/>
+                android:text="2" />
 
             <Button
                 android:id="@+id/b63"
@@ -432,8 +423,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:padding="10dp"
-                android:text="2"
-                android:background="@drawable/ring"/>
+                android:text="2" />
 
             <Button
                 android:id="@+id/b65"
@@ -452,117 +442,20 @@
     </TableLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:background="@drawable/custon_bottom_menu"
-        android:gravity="center"
-
-        >
+        android:gravity="center">
         <Button
-            android:id="@+id/reset"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:textColor="@color/red"
-            android:background="@drawable/reset5"
-            android:layout_marginRight="40dp"/>
-        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content" />
         <Button
-            android:id="@+id/hint"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:textColor="@color/red"
-            android:background="@drawable/hint"
-            android:layout_marginLeft="0dp"
-            />
-            <TextView
-                android:id="@+id/countHint"
-                android:layout_width="15dp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/hint"
-                android:text="1"
-                android:background="@drawable/toptexthint"
-                android:textColor="@color/white"
-                android:gravity="center"/>
-
-
-        </RelativeLayout>
-        <EditText
-            android:id="@+id/customTime"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text=""
-            android:hint="Time"
-            android:inputType="number"
-            android:background="@drawable/custom_textview"/>
-        <ToggleButton
-            android:id="@+id/sound"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="   Volume: "
-            android:textColor="@color/red"
-            android:background="@drawable/volume"
-            android:textOn=" "
-            android:textOff=" "
-            android:layout_marginLeft="40dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </LinearLayout>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:background="@drawable/resultboard"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:id="@+id/scoreBoard">
-        <TextView
-            android:id="@+id/tvKQ"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kết quả"
-            android:textSize="30dp"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/mauhong" />
-        <LinearLayout
-            android:id="@+id/LinearScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="50dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Điểm: "
-                android:textColor="#FFAB00"
-                android:textSize="40dp"/>
-            <TextView
-                android:id="@+id/finalScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFAB00"
-                android:text="100"
-                android:textSize="40dp"/>
-
-        </LinearLayout>
-        <TextView
-            android:id="@+id/bonusScore"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FF5722"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="30dp"
-            android:textSize="20dp"
-            android:text="(+1000)"/>
-
-    </RelativeLayout>
-</RelativeLayout>

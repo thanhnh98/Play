@@ -1,91 +1,93 @@
 package com.example.thanh.play;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.sql.Time;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    //Button
+    Button s00;
+    Button s01;
+    Button s02;
+    Button s03;
+    Button s04;
+    Button s05;
+    Button s06;
+    Button s10;
+    Button s11;
+    Button s12;
+    Button s13;
+    Button s14;
+    Button s15;
+    Button s16;
+    Button s20;
+    Button s21;
+    Button s22;
+    Button s23;
+    Button s24;
+    Button s25;
+    Button s26;
+    Button s30;
+    Button s31;
+    Button s32;
+    Button s33;
+    Button s34;
+    Button s35;
+    Button s36;
+    Button s40;
+    Button s41;
+    Button s42;
+    Button s43;
+    Button s44;
+    Button s45;
+    Button s46;
+    Button s50;
+    Button s51;
+    Button s52;
+    Button s53;
+    Button s54;
+    Button s55;
+    Button s56;
+    Button s60;
+    Button s61;
+    Button s62;
+    Button s63;
+    Button s64;
+    Button s65;
+    Button s66;
+
+    Button arBtn[][]=new Button[7][7];
     Button tmp1;
     Button tmp2;
-    Button rs;
-    Button hint;
-    Button arBtn[][]=new Button[7][7];
-    Button btnMenuMain;
-    //Int
-    int arID[][]=new int[7][7];
     int id1,id2;
     int check;
-    final int time=300;
+    int time=600;
     int timeBlock=700;
-    int soLanThaoTac=0;
-    int win=0;
-    int playTime=time;
-    int hintTimes=1;
-    int score=0;
-    int bonusScore=0;
-    int player=0;
-    //SharedPreferences
-    SharedPreferences sharedPreferences;
-    //Layout
-    RelativeLayout relativeLayout;
-    //Timer
-    Timer playTimer;
-    //Handler
-    Handler handler,handler2,handlerplayTime,handlerhint,handlerhint2;
-    //EditText
-    EditText etCustomTime;
-    //String
+    Handler handler,handler2,handlerplayTime;
     String small_icon;
-
-    //MediaPlayer
+    int soLanThaoTac=0;
     MediaPlayer mediaPlayer,mpClick,mpAccept,mpTimeOut,mpEndGame,mpWinGame;
-
-    //ToggleButton
+    int win=0;
+    Button rs;
     ToggleButton toggleButton;
-
-    //TextView
-    TextView txtPlayTime,txtscore;
-    TextView txtcountHint;
-    TextView tvKQ,tvFinalScore,tvbonusScore;
-    //Fragment
-
+    int playTime=20;
+    TextView txtPlayTime;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         //Set Âm Thanh
         mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.nhac);
@@ -96,363 +98,3780 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mpWinGame=mediaPlayer.create(MainActivity.this,R.raw.wingame);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
-        //Fragment
-        //Gán Biến
         toggleButton=findViewById(R.id.sound);
         txtPlayTime=findViewById(R.id.txtplayTime);
-        rs=findViewById(R.id.reset);
-        hint=findViewById(R.id.hint);
-        txtscore=findViewById(R.id.score);
-        etCustomTime=findViewById(R.id.customTime);
-        txtcountHint=findViewById(R.id.countHint);
-        relativeLayout=findViewById(R.id.scoreBoard);
-        tvKQ=findViewById(R.id.tvKQ);
-        tvFinalScore=findViewById(R.id.finalScore);
-        tvbonusScore=findViewById(R.id.bonusScore);
-        check=1;
-        small_icon="?";
-
-        //Set sự kiện custom
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(toggleButton.isChecked()){
                     mediaPlayer.stop();
-                    toggleButton.setBackground(getResources().getDrawable(R.drawable.volumeoff));
                 }
                 else {
                     mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.nhac);
                     mediaPlayer.start();
-                    toggleButton.setBackground(getResources().getDrawable(R.drawable.volume));
                 }
             }
         });
-        rs.setOnClickListener(this);
-        hint.setOnClickListener(this);
-        //Tạo mảng lưu Button
-        arBtn[0][0]=findViewById(R.id.b00);
-        arBtn[0][1]=findViewById(R.id.b01);
-        arBtn[0][2]=findViewById(R.id.b02);
-        arBtn[0][3]=findViewById(R.id.b03);
-        arBtn[0][4]=findViewById(R.id.b04);
-        arBtn[0][5]=findViewById(R.id.b05);
-        arBtn[0][6]=findViewById(R.id.b06);
-        arBtn[1][0]=findViewById(R.id.b10);
-        arBtn[1][1]=findViewById(R.id.b11);
-        arBtn[1][2]=findViewById(R.id.b12);
-        arBtn[1][3]=findViewById(R.id.b13);
-        arBtn[1][4]=findViewById(R.id.b14);
-        arBtn[1][5]=findViewById(R.id.b15);
-        arBtn[1][6]=findViewById(R.id.b16);
-        arBtn[2][0]=findViewById(R.id.b20);
-        arBtn[2][1]=findViewById(R.id.b21);
-        arBtn[2][2]=findViewById(R.id.b22);
-        arBtn[2][3]=findViewById(R.id.b23);
-        arBtn[2][4]=findViewById(R.id.b24);
-        arBtn[2][5]=findViewById(R.id.b25);
-        arBtn[2][6]=findViewById(R.id.b26);
-        arBtn[3][0]=findViewById(R.id.b30);
-        arBtn[3][1]=findViewById(R.id.b31);
-        arBtn[3][2]=findViewById(R.id.b32);
-        arBtn[3][3]=findViewById(R.id.b33);
-        arBtn[3][4]=findViewById(R.id.b34);
-        arBtn[3][5]=findViewById(R.id.b35);
-        arBtn[3][6]=findViewById(R.id.b36);
-        arBtn[4][0]=findViewById(R.id.b40);
-        arBtn[4][1]=findViewById(R.id.b41);
-        arBtn[4][2]=findViewById(R.id.b42);
-        arBtn[4][3]=findViewById(R.id.b43);
-        arBtn[4][4]=findViewById(R.id.b44);
-        arBtn[4][5]=findViewById(R.id.b45);
-        arBtn[4][6]=findViewById(R.id.b46);
-        arBtn[5][0]=findViewById(R.id.b50);
-        arBtn[5][1]=findViewById(R.id.b51);
-        arBtn[5][2]=findViewById(R.id.b52);
-        arBtn[5][3]=findViewById(R.id.b53);
-        arBtn[5][4]=findViewById(R.id.b54);
-        arBtn[5][5]=findViewById(R.id.b55);
-        arBtn[5][6]=findViewById(R.id.b56);
-        arBtn[6][0]=findViewById(R.id.b60);
-        arBtn[6][1]=findViewById(R.id.b61);
-        arBtn[6][2]=findViewById(R.id.b62);
-        arBtn[6][3]=findViewById(R.id.b63);
-        arBtn[6][4]=findViewById(R.id.b64);
-        arBtn[6][5]=findViewById(R.id.b65);
-        arBtn[6][6]=findViewById(R.id.b66);
-        //Tạo mảng ID
-        arID[0][0]=R.id.b00;
-        arID[0][1]=R.id.b01;
-        arID[0][2]=R.id.b02;
-        arID[0][3]=R.id.b03;
-        arID[0][4]=R.id.b04;
-        arID[0][5]=R.id.b05;
-        arID[0][6]=R.id.b06;
-        arID[1][0]=R.id.b10;
-        arID[1][1]=R.id.b11;
-        arID[1][2]=R.id.b12;
-        arID[1][3]=R.id.b13;
-        arID[1][4]=R.id.b14;
-        arID[1][5]=R.id.b15;
-        arID[1][6]=R.id.b16;
-        arID[2][0]=R.id.b20;
-        arID[2][1]=R.id.b21;
-        arID[2][2]=R.id.b22;
-        arID[2][3]=R.id.b23;
-        arID[2][4]=R.id.b24;
-        arID[2][5]=R.id.b25;
-        arID[2][6]=R.id.b26;
-        arID[3][0]=R.id.b30;
-        arID[3][1]=R.id.b31;
-        arID[3][2]=R.id.b32;
-        arID[3][3]=R.id.b33;
-        arID[3][4]=R.id.b34;
-        arID[3][5]=R.id.b35;
-        arID[3][6]=R.id.b36;
-        arID[4][0]=R.id.b40;
-        arID[4][1]=R.id.b41;
-        arID[4][2]=R.id.b42;
-        arID[4][3]=R.id.b43;
-        arID[4][4]=R.id.b44;
-        arID[4][5]=R.id.b45;
-        arID[4][6]=R.id.b46;
-        arID[5][0]=R.id.b50;
-        arID[5][1]=R.id.b51;
-        arID[5][2]=R.id.b52;
-        arID[5][3]=R.id.b53;
-        arID[5][4]=R.id.b54;
-        arID[5][5]=R.id.b55;
-        arID[5][6]=R.id.b56;
-        arID[6][0]=R.id.b60;
-        arID[6][1]=R.id.b61;
-        arID[6][2]=R.id.b62;
-        arID[6][3]=R.id.b63;
-        arID[6][4]=R.id.b64;
-        arID[6][5]=R.id.b65;
-        arID[6][6]=R.id.b66;
-
-        //Tạo ký tự trên button
-        createTable();
-        //Tạo Hint
-        createHint();
-        //Set sự kiện
-        createOnClick();
+        small_icon="*";
         //Set thời gian
         createTime();
-        //Tạo hình ảnh item game
-        createGameItem();
-        //Tắt bảng score
-        relativeLayout.setVisibility(View.INVISIBLE);
-        //Tạo sharedpreferences
+        //Tìm button
+        //Gán biến
+        check=1;
+        rs=findViewById(R.id.reset);
+        rs.setOnClickListener(this);
+        s00=findViewById(R.id.b00);
+        s01=findViewById(R.id.b01);
+        s02=findViewById(R.id.b02);
+        s03=findViewById(R.id.b03);
+        s04=findViewById(R.id.b04);
+        s05=findViewById(R.id.b05);
+        s06=findViewById(R.id.b06);
+        s10=findViewById(R.id.b10);
+        s11=findViewById(R.id.b11);
+        s12=findViewById(R.id.b12);
+        s13=findViewById(R.id.b13);
+        s14=findViewById(R.id.b14);
+        s15=findViewById(R.id.b15);
+        s16=findViewById(R.id.b16);
+        s20=findViewById(R.id.b20);
+        s21=findViewById(R.id.b21);
+        s22=findViewById(R.id.b22);
+        s23=findViewById(R.id.b23);
+        s24=findViewById(R.id.b24);
+        s25=findViewById(R.id.b25);
+        s26=findViewById(R.id.b26);
+        s30=findViewById(R.id.b30);
+        s31=findViewById(R.id.b31);
+        s32=findViewById(R.id.b32);
+        s33=findViewById(R.id.b33);
+        s34=findViewById(R.id.b34);
+        s35=findViewById(R.id.b35);
+        s36=findViewById(R.id.b36);
+        s40=findViewById(R.id.b40);
+        s41=findViewById(R.id.b41);
+        s42=findViewById(R.id.b42);
+        s43=findViewById(R.id.b43);
+        s44=findViewById(R.id.b44);
+        s45=findViewById(R.id.b45);
+        s46=findViewById(R.id.b46);
+        s50=findViewById(R.id.b50);
+        s51=findViewById(R.id.b51);
+        s52=findViewById(R.id.b52);
+        s53=findViewById(R.id.b53);
+        s54=findViewById(R.id.b54);
+        s55=findViewById(R.id.b55);
+        s56=findViewById(R.id.b56);
+        s60=findViewById(R.id.b60);
+        s61=findViewById(R.id.b61);
+        s62=findViewById(R.id.b62);
+        s63=findViewById(R.id.b63);
+        s64=findViewById(R.id.b64);
+        s65=findViewById(R.id.b65);
+        s66=findViewById(R.id.b66);
+
+        //Tạo mảng lưu trữ
+        
 
 
-        sharedPreferences=getSharedPreferences("BXH",Context.MODE_PRIVATE);
-        /*SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.commit();*/
-        String key=sharedPreferences.getString("key","");
+        //Tạo biểu tượng ban đầu
+        s00.setText(small_icon);
+        s01.setText(small_icon);
+        s02.setText(small_icon);
+        s03.setText(small_icon);
+        s04.setText(small_icon);
+        s05.setText(small_icon);
+        s06.setText(small_icon);
+        s10.setText(small_icon);
+        s11.setText(small_icon);
+        s12.setText(small_icon);
+        s13.setText(small_icon);
+        s14.setText(small_icon);
+        s15.setText(small_icon);
+        s16.setText(small_icon);
+        s20.setText(small_icon);
+        s21.setText(small_icon);
+        s22.setText(small_icon);
+        s23.setText(small_icon);
+        s24.setText(small_icon);
+        s25.setText(small_icon);
+        s26.setText(small_icon);
+        s30.setText(small_icon);
+        s31.setText(small_icon);
+        s32.setText(small_icon);
+        s33.setText(small_icon);
+        s34.setText(small_icon);
+        s35.setText(small_icon);
+        s36.setText(small_icon);
+        s40.setText(small_icon);
+        s41.setText(small_icon);
+        s42.setText(small_icon);
+        s43.setText(small_icon);
+        s44.setText(small_icon);
+        s45.setText(small_icon);
+        s46.setText(small_icon);
+        s50.setText(small_icon);
+        s51.setText(small_icon);
+        s52.setText(small_icon);
+        s53.setText(small_icon);
+        s54.setText(small_icon);
+        s55.setText(small_icon);
+        s56.setText(small_icon);
+        s60.setText(small_icon);
+        s61.setText(small_icon);
+        s62.setText(small_icon);
+        s63.setText(small_icon);
+        s64.setText(small_icon);
+        s65.setText(small_icon);
+        s66.setText(small_icon);
 
-        player=(key=="")?0:Integer.parseInt(key);
+
+
+
+        //Tạo giá trị
+        s00.setHint("3");
+        s01.setHint("13");
+        s02.setHint("6");
+        s03.setHint("24");
+        s04.setHint("12");
+        s05.setHint("15");
+        s06.setHint("17");
+        s10.setHint("12");
+        s11.setHint("19");
+        s12.setHint("16");
+        s13.setHint("7");
+        s14.setHint("14");
+        s15.setHint("11");
+        s16.setHint("21");
+        s20.setHint("7");
+        s21.setHint("14");
+        s22.setHint("10");
+        s23.setHint("17");
+        s24.setHint("18");
+        s25.setHint("8");
+        s26.setHint("2");
+        s30.setHint("10");
+        s31.setHint("13");
+        s32.setHint("15");
+        s33.setHint("5");
+        s34.setHint("21");
+        s35.setHint("8");
+        s36.setHint("1");
+        s40.setHint("1");
+        s41.setHint("9");
+        s42.setHint("22");
+        s43.setHint("5");
+        s44.setHint("19");
+        s45.setHint("18");
+        s46.setHint("4");
+        s50.setHint("22");
+        s51.setHint("4");
+        s52.setHint("16");
+        s53.setHint("9");
+        s54.setHint("20");
+        s55.setHint("2");
+        s56.setHint("11");
+        s60.setHint("23");
+        s61.setHint("20");
+        s62.setHint("0");
+        s63.setHint("6");
+        s64.setHint("3");
+        s65.setHint("24");
+        s66.setHint("23");
+
+
+        //Set sự kiện
+        s00.setOnClickListener(this);
+        s01.setOnClickListener(this);
+        s02.setOnClickListener(this);
+        s03.setOnClickListener(this);
+        s04.setOnClickListener(this);
+        s05.setOnClickListener(this);
+        s06.setOnClickListener(this);
+        s10.setOnClickListener(this);
+        s11.setOnClickListener(this);
+        s12.setOnClickListener(this);
+        s13.setOnClickListener(this);
+        s14.setOnClickListener(this);
+        s15.setOnClickListener(this);
+        s16.setOnClickListener(this);
+        s20.setOnClickListener(this);
+        s21.setOnClickListener(this);
+        s22.setOnClickListener(this);
+        s23.setOnClickListener(this);
+        s24.setOnClickListener(this);
+        s25.setOnClickListener(this);
+        s26.setOnClickListener(this);
+        s30.setOnClickListener(this);
+        s31.setOnClickListener(this);
+        s32.setOnClickListener(this);
+        s33.setOnClickListener(this);
+        s34.setOnClickListener(this);
+        s35.setOnClickListener(this);
+        s36.setOnClickListener(this);
+        s40.setOnClickListener(this);
+        s41.setOnClickListener(this);
+        s42.setOnClickListener(this);
+        s43.setOnClickListener(this);
+        s44.setOnClickListener(this);
+        s45.setOnClickListener(this);
+        s46.setOnClickListener(this);
+        s50.setOnClickListener(this);
+        s51.setOnClickListener(this);
+        s52.setOnClickListener(this);
+        s53.setOnClickListener(this);
+        s54.setOnClickListener(this);
+        s55.setOnClickListener(this);
+        s56.setOnClickListener(this);
+        s60.setOnClickListener(this);
+        s61.setOnClickListener(this);
+        s62.setOnClickListener(this);
+        s63.setOnClickListener(this);
+        s64.setOnClickListener(this);
+        s65.setOnClickListener(this);
+        s66.setOnClickListener(this);
+
+        //Khởi tạo giá trị
+
+
+
     }
-
-
-    //Sự kiện Vào game
+    Button btnCase;
+    int demThaoTac=0;
+    //Sự kiện
     @Override
     public void onClick(View view) {
         mpClick.start();
-        //reset
-        if (view.getId() == R.id.reset) reset();
-
-        //hint
-        if(view.getId()==R.id.hint){
-            if(hintTimes>0) {
-                clearTable();
-                hintTimes -= 1;
-                handlerhint=new Handler(){
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                        createTable();
-                    }
-                };
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        handlerhint.sendEmptyMessage(0);
-                    }
-                },1300);
-            }
-            txtcountHint.setText(String.valueOf(hintTimes).toString());
-        }
-
         //Win game
-        if (win == 23) {
-            clearTable();
-            mediaPlayer.stop();
-            mpEndGame.stop();
-            mpTimeOut.stop();
-            bonusScore=playTime;
-            playTime = 0;
-            mpWinGame.start();
-            playTimer.cancel();
-            block();
-            winGame();
-            putBXH(tongDiem());
+         if(win==1){
+             Toast.makeText(MainActivity.this,"Win",Toast.LENGTH_SHORT).show();
+             mediaPlayer.stop();
+             mpEndGame.stop();
+             mpTimeOut.stop();
+             playTime=0;
+             mpWinGame.start();
 
 
-        } else
-            for (int i = 0; i < 7; ++i) {
-                for (int j = 0; j < 7; ++j) {
-                    if (view.getId() == arID[i][j]) {
-                        if(arBtn[i][j].getHint()=="+1"){//Tạo số lần hint
-                            hintTimes+=1;
-                            txtcountHint.setText(String.valueOf(hintTimes).toString());
-                            arBtn[i][j].setText("");
-                            final int a=i;
-                            final int b=j;
-                            handlerhint2=new Handler(){
-                                @Override
-                                public void handleMessage(Message msg) {
-                                    super.handleMessage(msg);
-                                    arBtn[a][b].setVisibility(View.INVISIBLE);
-                                    arBtn[a][b].setEnabled(false);
-                                }
-                            };
-                            new Timer().schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    handlerhint2.sendEmptyMessage(0);
-                                }
-                            },700);
-                            continue;
-                        }
-                        if (check == 1) {
-                            tmp1 = findViewById(arID[i][j]);
-                            id1 = arID[i][j];
-                            tmp1.setText("");
-                            tmp1.setEnabled(false);
-                            check = 2;
-                            //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
-                        } else if (check == 2) {
-                            controlBoard();
-                            //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
-                            tmp2 = findViewById(arID[i][j]);
-                            id2 = arID[i][j];
-                            if (tmp1.getHint() == tmp2.getHint()) {
-                                score+=5;
-                                txtscore.setText(String.valueOf(score).toString());
-                                //checkpoint
-                                win += 1;
-                                mpAccept.start();
 
-                                tmp2.setText("");
-                                tmp2.setEnabled(false);
-                                handler = new Handler() {
-                                    @Override
-                                    public void handleMessage(Message msg) {
-                                        super.handleMessage(msg);
-                                        Button btn1, btn2;
-                                        btn1 = findViewById(id1);
-                                        btn2 = findViewById(id2);
-                                        btn1.setVisibility(View.INVISIBLE);
-                                        btn2.setVisibility(View.INVISIBLE);
-                                        check = 1;
-                                    }
-                                };
+         }
+         else
 
-                                new Timer().schedule(new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        // this code will be executed after 10 minutes
-                                        handler.sendEmptyMessage(0);
-                                    }
-                                }, time);
+             switch (view.getId()){
+                 case R.id.b00:
 
-                            } else {
-                                tmp2.setText("");
-                                tmp2.setEnabled(false);
-                                handler = new Handler() {
-                                    @Override
-                                    public void handleMessage(Message msg) {
-                                        super.handleMessage(msg);
-                                        tmp1.setText(small_icon);
-                                        tmp2.setText(small_icon);
-                                        tmp1.setEnabled(true);
-                                        tmp2.setEnabled(true);
-                                        tmp1 = null;
-                                        tmp2 = null;
-                                        check = 1;
-                                    }
-                                };
 
-                                new Timer().schedule(new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        // this code will be executed after 10 minutes
-                                        handler.sendEmptyMessage(0);
-                                    }
-                                }, time);
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
+                     if(check==1){
+                         tmp1=findViewById(R.id.b00);
+                         id1=R.id.b00;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b00);
+                         id2=R.id.b00;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+                 case R.id.b01:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b01);
+                         id1=R.id.b01;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b01);
+                         id2=R.id.b01;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+                 case R.id.b02:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b02);
+                         id1=R.id.b02;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b02);
+                         id2=R.id.b02;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+
+                 case R.id.b03:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b03);
+                         id1=R.id.b03;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b03);
+                         id2=R.id.b03;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+                 case R.id.b04:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b04);
+                         id1=R.id.b04;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b04);
+                         id2=R.id.b04;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+                 case R.id.b05:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b05);
+                         id1=R.id.b05;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b05);
+                         id2=R.id.b05;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+                 case R.id.b06:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b06);
+                         id1=R.id.b06;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b06);
+                         id2=R.id.b06;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+
+                 case R.id.b10:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b10);
+                         id1=R.id.b10;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b10);
+                         id2=R.id.b10;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, 700);
+                         }
+                     }
+                     break;
+                 case R.id.b11:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b11);
+                         id1=R.id.b11;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b11);
+                         id2=R.id.b11;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+                 case R.id.b12:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b12);
+                         id1=R.id.b12;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b12);
+                         id2=R.id.b12;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b13:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b13);
+                         id1=R.id.b13;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b13);
+                         id2=R.id.b13;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b14:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b14);
+                         id1=R.id.b14;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b14);
+                         id2=R.id.b14;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+                 case R.id.b15:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b15);
+                         id1=R.id.b15;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b15);
+                         id2=R.id.b15;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+
+                 case R.id.b16:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b16);
+                         id1=R.id.b16;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b16);
+                         id2=R.id.b16;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b20:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b20);
+                         id1=R.id.b20;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b20);
+                         id2=R.id.b20;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b21:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b21);
+                         id1=R.id.b21;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b21);
+                         id2=R.id.b21;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b22:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b22);
+                         id1=R.id.b22;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b22);
+                         id2=R.id.b22;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b23:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b23);
+                         id1=R.id.b23;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b23);
+                         id2=R.id.b23;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+                 case R.id.b24:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b24);
+                         id1=R.id.b24;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b24);
+                         id2=R.id.b24;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b25:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b25);
+                         id1=R.id.b25;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b25);
+                         id2=R.id.b25;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b26:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b26);
+                         id1=R.id.b26;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b26);
+                         id2=R.id.b26;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b30:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b30);
+                         id1=R.id.b30;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b30);
+                         id2=R.id.b30;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b31:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b31);
+                         id1=R.id.b31;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b31);
+                         id2=R.id.b31;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b32:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b32);
+                         id1=R.id.b32;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b32);
+                         id2=R.id.b32;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b33:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b33);
+                         id1=R.id.b33;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b33);
+                         id2=R.id.b33;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b34:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b34);
+                         id1=R.id.b34;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b34);
+                         id2=R.id.b34;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b35:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b35);
+                         id1=R.id.b35;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b35);
+                         id2=R.id.b35;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b36:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b36);
+                         id1=R.id.b36;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b36);
+                         id2=R.id.b36;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b40:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b40);
+                         id1=R.id.b40;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b40);
+                         id2=R.id.b40;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b41:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b41);
+                         id1=R.id.b41;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b41);
+                         id2=R.id.b41;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+                 case R.id.b42:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b42);
+                         id1=R.id.b42;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b42);
+                         id2=R.id.b42;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b43:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b43);
+                         id1=R.id.b43;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b43);
+                         id2=R.id.b43;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b44:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b44);
+                         id1=R.id.b44;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b44);
+                         id2=R.id.b44;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b45:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b45);
+                         id1=R.id.b45;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b45);
+                         id2=R.id.b45;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b46:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b46);
+                         id1=R.id.b46;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b46);
+                         id2=R.id.b46;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b50:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b50);
+                         id1=R.id.b50;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b50);
+                         id2=R.id.b50;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b51:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b51);
+                         id1=R.id.b51;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b51);
+                         id2=R.id.b51;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b52:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b52);
+                         id1=R.id.b52;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b52);
+                         id2=R.id.b52;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b53:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b53);
+                         id1=R.id.b53;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b53);
+                         id2=R.id.b53;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b54:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b54);
+                         id1=R.id.b54;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b54);
+                         id2=R.id.b54;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b55:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b55);
+                         id1=R.id.b55;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b55);
+                         id2=R.id.b55;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b56:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b56);
+                         id1=R.id.b56;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b56);
+                         id2=R.id.b56;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b60:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b60);
+                         id1=R.id.b60;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b60);
+                         id2=R.id.b60;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b61:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b61);
+                         id1=R.id.b61;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b61);
+                         id2=R.id.b61;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b62:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b62);
+                         id1=R.id.b62;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b62);
+                         id2=R.id.b62;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b63:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b63);
+                         id1=R.id.b63;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b63);
+                         id2=R.id.b63;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b64:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b64);
+                         id1=R.id.b64;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b64);
+                         id2=R.id.b64;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b65:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b65);
+                         id1=R.id.b65;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b65);
+                         id2=R.id.b65;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+                 case R.id.b66:
+                     //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                     if(check==1){
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp1=findViewById(R.id.b66);
+                         id1=R.id.b66;
+                         tmp1.setText("");
+                         tmp1.setEnabled(false);
+                         check=2;
+                     }
+                     else if(check==2){ controlBoard();
+                         //Toast.makeText(MainActivity.this,String.valueOf(check).toString(),Toast.LENGTH_SHORT).show();
+                         tmp2=findViewById(R.id.b66);
+                         id2=R.id.b66;
+                         if(tmp1.getHint()==tmp2.getHint()){win+=1;mpAccept.start();
+
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     Button btn1,btn2;
+                                     btn1=findViewById(id1);
+                                     btn2=findViewById(id2);
+                                     btn1.setVisibility(View.INVISIBLE);
+                                     btn2.setVisibility(View.INVISIBLE);
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+
+                         }
+                         else {
+                             tmp2.setText("");
+                             tmp2.setEnabled(false);
+                             handler=new Handler(){
+                                 @Override
+                                 public void handleMessage(Message msg) {
+                                     super.handleMessage(msg);
+                                     tmp1.setText(small_icon);
+                                     tmp2.setText(small_icon);
+                                     tmp1.setEnabled(true);
+                                     tmp2.setEnabled(true);
+                                     tmp1=null;
+                                     tmp2=null;
+                                     check=1;
+                                 }
+                             };
+
+                             new Timer().schedule(new TimerTask() {
+                                 @Override    public void run() {
+                                     // this code will be executed after 10 minutes
+                                     handler.sendEmptyMessage(0);
+                                 }
+                             }, time);
+                         }
+                     }
+                     break;
+
+
+                 case R.id.reset:
+                     Intent intent = new Intent(MainActivity.this,MainActivity.class);
+
+                     startActivity(intent);
+
+                     finish();
+                     break;
+
+                 default:
+                     break;
+
+
+
+
+
+
+
+             }
+
     }
 
-    //Reset
+
     public void reset(){
+        s00.setText(small_icon);
+        s01.setText(small_icon);
+        s02.setText(small_icon);
+        s03.setText(small_icon);
+        s04.setText(small_icon);
+        s05.setText(small_icon);
+        s06.setText(small_icon);
+        s10.setText(small_icon);
+        s11.setText(small_icon);
+        s12.setText(small_icon);
+        s13.setText(small_icon);
+        s14.setText(small_icon);
+        s15.setText(small_icon);
+        s16.setText(small_icon);
+        s20.setText(small_icon);
+        s21.setText(small_icon);
+        s22.setText(small_icon);
+        s23.setText(small_icon);
+        s24.setText(small_icon);
+        s25.setText(small_icon);
+        s26.setText(small_icon);
+        s30.setText(small_icon);
+        s31.setText(small_icon);
+        s32.setText(small_icon);
+        s33.setText(small_icon);
+        s34.setText(small_icon);
+        s35.setText(small_icon);
+        s36.setText(small_icon);
+        s40.setText(small_icon);
+        s41.setText(small_icon);
+        s42.setText(small_icon);
+        s43.setText(small_icon);
+        s44.setText(small_icon);
+        s45.setText(small_icon);
+        s46.setText(small_icon);
+        s50.setText(small_icon);
+        s51.setText(small_icon);
+        s52.setText(small_icon);
+        s53.setText(small_icon);
+        s54.setText(small_icon);
+        s55.setText(small_icon);
+        s56.setText(small_icon);
+        s60.setText(small_icon);
+        s61.setText(small_icon);
+        s62.setText(small_icon);
+        s63.setText(small_icon);
+        s64.setText(small_icon);
+        s65.setText(small_icon);
+        s66.setText(small_icon);
 
-        new AlertDialog.Builder(this)
-                .setMessage("Tạo mới game ??")
-                .setCancelable(false)
-                .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        for(int i=0;i<7;++i){
-                            for(int j=0;j<7;++j){
-                                arBtn[i][j].setText(small_icon);
-                                arBtn[i][j].setEnabled(true);
-                                arBtn[i][j].setVisibility(View.VISIBLE);
-                            }
-                        }
-                        mediaPlayer.start();
-                        playTimer.cancel();
-                        if(etCustomTime.getText().toString().length()>0){
-                            playTime=Integer.parseInt(etCustomTime.getText().toString())*60;
-                        }
-                        else playTime=time;
-                        win=0;
-                        hintTimes=2;
-                        txtcountHint.setText(String.valueOf(hintTimes).toString());
-                        score=0;
-                        txtscore.setText(String.valueOf(score).toString());
-                        createTable();
-                        createHint();
-                        createTime();
+        s00.setVisibility(View.VISIBLE);
+        s01.setVisibility(View.VISIBLE);
+        s02.setVisibility(View.VISIBLE);
+        s03.setVisibility(View.VISIBLE);
+        s04.setVisibility(View.VISIBLE);
+        s05.setVisibility(View.VISIBLE);
+        s06.setVisibility(View.VISIBLE);
+        s10.setVisibility(View.VISIBLE);
+        s11.setVisibility(View.VISIBLE);
+        s12.setVisibility(View.VISIBLE);
+        s13.setVisibility(View.VISIBLE);
+        s14.setVisibility(View.VISIBLE);
+        s15.setVisibility(View.VISIBLE);
+        s16.setVisibility(View.VISIBLE);
+        s20.setVisibility(View.VISIBLE);
+        s21.setVisibility(View.VISIBLE);
+        s22.setVisibility(View.VISIBLE);
+        s23.setVisibility(View.VISIBLE);
+        s24.setVisibility(View.VISIBLE);
+        s25.setVisibility(View.VISIBLE);
+        s26.setVisibility(View.VISIBLE);
+        s30.setVisibility(View.VISIBLE);
+        s31.setVisibility(View.VISIBLE);
+        s32.setVisibility(View.VISIBLE);
+        s33.setVisibility(View.VISIBLE);
+        s34.setVisibility(View.VISIBLE);
+        s35.setVisibility(View.VISIBLE);
+        s36.setVisibility(View.VISIBLE);
+        s40.setVisibility(View.VISIBLE);
+        s41.setVisibility(View.VISIBLE);
+        s42.setVisibility(View.VISIBLE);
+        s43.setVisibility(View.VISIBLE);
+        s44.setVisibility(View.VISIBLE);
+        s45.setVisibility(View.VISIBLE);
+        s46.setVisibility(View.VISIBLE);
+        s50.setVisibility(View.VISIBLE);
+        s51.setVisibility(View.VISIBLE);
+        s52.setVisibility(View.VISIBLE);
+        s53.setVisibility(View.VISIBLE);
+        s54.setVisibility(View.VISIBLE);
+        s55.setVisibility(View.VISIBLE);
+        s56.setVisibility(View.VISIBLE);
+        s60.setVisibility(View.VISIBLE);
+        s61.setVisibility(View.VISIBLE);
+        s62.setVisibility(View.VISIBLE);
+        s63.setVisibility(View.VISIBLE);
+        s64.setVisibility(View.VISIBLE);
+        s65.setVisibility(View.VISIBLE);
+        s66.setVisibility(View.VISIBLE);
 
-                        unBlock();
-                        relativeLayout.setVisibility(View.INVISIBLE);
-                    }
-                })
-                .setPositiveButton("No", null)
-                .show();
+        s00.setEnabled(true);
+        s01.setEnabled(true);
+        s02.setEnabled(true);
+        s03.setEnabled(true);
+        s04.setEnabled(true);
+        s05.setEnabled(true);
+        s06.setEnabled(true);
+        s10.setEnabled(true);
+        s11.setEnabled(true);
+        s12.setEnabled(true);
+        s13.setEnabled(true);
+        s14.setEnabled(true);
+        s15.setEnabled(true);
+        s16.setEnabled(true);
+        s20.setEnabled(true);
+        s21.setEnabled(true);
+        s22.setEnabled(true);
+        s23.setEnabled(true);
+        s24.setEnabled(true);
+        s25.setEnabled(true);
+        s26.setEnabled(true);
+        s30.setEnabled(true);
+        s31.setEnabled(true);
+        s32.setEnabled(true);
+        s33.setEnabled(true);
+        s34.setEnabled(true);
+        s35.setEnabled(true);
+        s36.setEnabled(true);
+        s40.setEnabled(true);
+        s41.setEnabled(true);
+        s42.setEnabled(true);
+        s43.setEnabled(true);
+        s44.setEnabled(true);
+        s45.setEnabled(true);
+        s46.setEnabled(true);
+        s50.setEnabled(true);
+        s51.setEnabled(true);
+        s52.setEnabled(true);
+        s53.setEnabled(true);
+        s54.setEnabled(true);
+        s55.setEnabled(true);
+        s56.setEnabled(true);
+        s60.setEnabled(true);
+        s61.setEnabled(true);
+        s62.setEnabled(true);
+        s63.setEnabled(true);
+        s64.setEnabled(true);
+        s65.setEnabled(true);
+        s66.setEnabled(true);
+
+        win=0;
+
 
     }
-    //Block
     public void block(){
-        for(int i=0;i<7;++i){
-            for(int j=0;j<7;++j){
-                arBtn[i][j].setOnClickListener(null);
-            }
-        }
-        hint.setOnClickListener(null);
+        s00.setOnClickListener(null);
+        s01.setOnClickListener(null);
+        s02.setOnClickListener(null);
+        s03.setOnClickListener(null);
+        s04.setOnClickListener(null);
+        s05.setOnClickListener(null);
+        s06.setOnClickListener(null);
+        s10.setOnClickListener(null);
+        s11.setOnClickListener(null);
+        s12.setOnClickListener(null);
+        s13.setOnClickListener(null);
+        s14.setOnClickListener(null);
+        s15.setOnClickListener(null);
+        s16.setOnClickListener(null);
+        s20.setOnClickListener(null);
+        s21.setOnClickListener(null);
+        s22.setOnClickListener(null);
+        s23.setOnClickListener(null);
+        s24.setOnClickListener(null);
+        s25.setOnClickListener(null);
+        s26.setOnClickListener(null);
+        s30.setOnClickListener(null);
+        s31.setOnClickListener(null);
+        s32.setOnClickListener(null);
+        s33.setOnClickListener(null);
+        s34.setOnClickListener(null);
+        s35.setOnClickListener(null);
+        s36.setOnClickListener(null);
+        s40.setOnClickListener(null);
+        s41.setOnClickListener(null);
+        s42.setOnClickListener(null);
+        s43.setOnClickListener(null);
+        s44.setOnClickListener(null);
+        s45.setOnClickListener(null);
+        s46.setOnClickListener(null);
+        s50.setOnClickListener(null);
+        s51.setOnClickListener(null);
+        s52.setOnClickListener(null);
+        s53.setOnClickListener(null);
+        s54.setOnClickListener(null);
+        s55.setOnClickListener(null);
+        s56.setOnClickListener(null);
+        s60.setOnClickListener(null);
+        s61.setOnClickListener(null);
+        s62.setOnClickListener(null);
+        s63.setOnClickListener(null);
+        s64.setOnClickListener(null);
+        s65.setOnClickListener(null);
+        s66.setOnClickListener(null);
+
+
+
+
     }
-    //unBlock
     public void unBlock(){
-        for(int i=0;i<7;++i){
-            for(int j=0;j<7;++j){
-                arBtn[i][j].setOnClickListener(MainActivity.this);
-            }
-        }
-        hint.setOnClickListener(MainActivity.this);
+        s00.setOnClickListener(MainActivity.this);
+        s01.setOnClickListener(MainActivity.this);
+        s02.setOnClickListener(MainActivity.this);
+        s03.setOnClickListener(MainActivity.this);
+        s04.setOnClickListener(MainActivity.this);
+        s05.setOnClickListener(MainActivity.this);
+        s06.setOnClickListener(MainActivity.this);
+        s10.setOnClickListener(MainActivity.this);
+        s11.setOnClickListener(MainActivity.this);
+        s12.setOnClickListener(MainActivity.this);
+        s13.setOnClickListener(MainActivity.this);
+        s14.setOnClickListener(MainActivity.this);
+        s15.setOnClickListener(MainActivity.this);
+        s16.setOnClickListener(MainActivity.this);
+        s20.setOnClickListener(MainActivity.this);
+        s21.setOnClickListener(MainActivity.this);
+        s22.setOnClickListener(MainActivity.this);
+        s23.setOnClickListener(MainActivity.this);
+        s24.setOnClickListener(MainActivity.this);
+        s25.setOnClickListener(MainActivity.this);
+        s26.setOnClickListener(MainActivity.this);
+        s30.setOnClickListener(MainActivity.this);
+        s31.setOnClickListener(MainActivity.this);
+        s32.setOnClickListener(MainActivity.this);
+        s33.setOnClickListener(MainActivity.this);
+        s34.setOnClickListener(MainActivity.this);
+        s35.setOnClickListener(MainActivity.this);
+        s36.setOnClickListener(MainActivity.this);
+        s40.setOnClickListener(MainActivity.this);
+        s41.setOnClickListener(MainActivity.this);
+        s42.setOnClickListener(MainActivity.this);
+        s43.setOnClickListener(MainActivity.this);
+        s44.setOnClickListener(MainActivity.this);
+        s45.setOnClickListener(MainActivity.this);
+        s46.setOnClickListener(MainActivity.this);
+        s50.setOnClickListener(MainActivity.this);
+        s51.setOnClickListener(MainActivity.this);
+        s52.setOnClickListener(MainActivity.this);
+        s53.setOnClickListener(MainActivity.this);
+        s54.setOnClickListener(MainActivity.this);
+        s55.setOnClickListener(MainActivity.this);
+        s56.setOnClickListener(MainActivity.this);
+        s60.setOnClickListener(MainActivity.this);
+        s61.setOnClickListener(MainActivity.this);
+        s62.setOnClickListener(MainActivity.this);
+        s63.setOnClickListener(MainActivity.this);
+        s64.setOnClickListener(MainActivity.this);
+        s65.setOnClickListener(MainActivity.this);
+        s66.setOnClickListener(MainActivity.this);
+
+
+
+
     }
     //Lỗi bấm 3 số
     public void controlBoard(){
@@ -473,6 +3892,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }, timeBlock);
 
+    }
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.stop();
     }
 
     public void createTime(){
@@ -495,134 +3918,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     playTime-=1;
                 }
                 //End Game
-                if (msg.what==0&&win<24){
+                if (msg.what==0){
                     Toast.makeText(MainActivity.this,"Xong film",Toast.LENGTH_SHORT).show();
                     mediaPlayer.stop();
                     mpEndGame.start();
-                    clearTable();
-                    block();
-                    loseGame();
-                    putBXH(tongDiem());
                 }
             }
         };
-        playTimer = new Timer();
-        playTimer.schedule(new TimerTask() {
+        new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 handlerplayTime.sendEmptyMessage(playTime);
             }
-        },1000, 1000);
-    }
-    public void createTable(){
-        for(int i=0;i<7;++i){
-            for(int j=0;j<7;++j){
-                arBtn[i][j].setText(small_icon);
-            }
-        }
-    }
-    //Kết quả game
-    public int tongDiem(){
-        bonusScore+=1;
-        return win*5+bonusScore;
-    }
-    public void winGame(){
-        relativeLayout.setVisibility(View.VISIBLE);
-        tvKQ.setText("Chiến Thắng");
-        tvFinalScore.setText(String.valueOf(tongDiem()).toString());
-        tvbonusScore.setText("(+"+String.valueOf(bonusScore).toString()+")");
-
-    }
-    public void loseGame(){
-        relativeLayout.setVisibility(View.VISIBLE);
-        tvKQ.setText("Thất Bại");
-        tvFinalScore.setText(String.valueOf(tongDiem()).toString());
-        tvbonusScore.setText("(+"+String.valueOf(bonusScore).toString()+")");
-
-    }
-    public void clearTable(){
-        for(int i=0;i<7;++i){
-            for(int j=0;j<7;++j){
-                arBtn[i][j].setText("");
-            }
-        }
-    }
-    public void createHint(){
-        String startValues="+1";
-        for(int i=0;i<7;++i){
-            for(int j=0;j<7;++j){
-                arBtn[i][j].setHint(startValues);
-            }
-        }
-        Random rand=new Random();
-        for(int i=1;i<=24;++i){
-            int x=rand.nextInt(7);
-            int y=rand.nextInt(7);
-            while(arBtn[x][y].getHint()!=startValues){
-                x=rand.nextInt(7);
-                y=rand.nextInt(7);
-            }
-            arBtn[x][y].setHint(String.valueOf(i).toString());
-            while(arBtn[x][y].getHint()!=startValues){
-                x=rand.nextInt(7);
-                y=rand.nextInt(7);
-            }
-            arBtn[x][y].setHint(String.valueOf(i).toString());
-        }
+        },1000, 601);
     }
 
-    public void createOnClick(){
-        for(int i=0;i<7;++i){
-            for(int j=0;j<7;++j){
-                arBtn[i][j].setOnClickListener(MainActivity.this);
-            }
-        }
-    }
 
-    public void createGameItem(){
-        for(int i=0;i<7;++i){
-            for(int j=0;j<7;++j){
-                arBtn[i][j].setHintTextColor(getResources().getColor(R.color.hintcolor));
-                arBtn[i][j].setBackground(ContextCompat.getDrawable(MainActivity.this,R.drawable.custom_gameitem));
-                arBtn[i][j].setText(small_icon);
-                arBtn[i][j].setTextColor(getResources().getColor(R.color.mauhong));
-                arBtn[i][j].setTextSize(20);
-            }
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setMessage("Trở về menu ??")
-                .setCancelable(false)
-                .setNegativeButton("Ừ", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putString("key",String.valueOf(player).toString());
-                        editor.commit();
-                        MainActivity.this.finish();
-                    }
-                })
-                .setPositiveButton("Nố nô nô nồ", null)
-                .show();
-    }
-    protected void onPause() {
-        super.onPause();
-        mediaPlayer.stop();
-        mpTimeOut.stop();
-        mpEndGame.stop();
-        mpWinGame.stop();
-        mpClick.stop();
-        mpAccept.stop();
-    }
-
-    public void putBXH(int point){
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putString(String.valueOf(player).toString(),String.valueOf(point).toString());
-        editor.commit();
-        player++;
-    }
 
 }
-
